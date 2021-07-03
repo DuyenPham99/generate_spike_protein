@@ -35,7 +35,7 @@ train_gen = one_hot_generator(msa_seqs, padding=None)
 
 # Define model
 print('Building model')
-model = MSAVAE(original_dim=1653, latent_dim=10)
+model = MSAVAE(original_dim=1653, latent_dim=50)
 
 # (Optionally) define callbacks
 callbacks = [CSVLogger('output/logs/msavae.csv')]

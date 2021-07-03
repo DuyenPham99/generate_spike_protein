@@ -32,7 +32,7 @@ def right_pad(seqlist, target_length=None):
 
 
 def one_hot_generator(seqlist, conditions=None, batch_size=32,
-                      padding=504, shuffle=True, alphabet=aa_letters):
+                      padding=1653, shuffle=True, alphabet=aa_letters):
     if type(seqlist) == pd.Series:
         seqlist = seqlist.values
     if type(seqlist) == list:

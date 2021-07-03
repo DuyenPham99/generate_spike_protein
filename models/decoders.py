@@ -8,14 +8,11 @@ from tensorflow.keras.layers import Input, Concatenate, Reshape, Dense, Add, Lam
     Flatten, RepeatVector, ZeroPadding1D, \
     GRU, LSTM, Conv1D
 
-import sys
-
-sys.path.append('E:\ML\generate_spike_protein')
-# from utils.layers import Deconv1D
+from utils.layers import Deconv1D
 
 
 def fc_decoder(latent_dim, seqlen, decoder_hidden=[250], decoder_dropout=[0.],
-               alphabet_size=21, n_conditions=0, activation='relu'):
+               alphabet_size=22, n_conditions=0, activation='relu'):
     latent_vector = Input((latent_dim,))
     latent_v = latent_vector
     if n_conditions > 0:
@@ -55,7 +52,6 @@ def upsampler(latent_vector, low_res_dim, min_deconv_dim=21,
                      strides=2, activation=activation,
                      use_bias=not BN, BN=BN, dropout=dropout)(h)
     return h
-
 
 # def recurrent_sequence_decoder(latent_dim, seqlen, ncell=512,
 #                                alphabet_size=21, project_x=True,

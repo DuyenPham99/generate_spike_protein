@@ -1,11 +1,7 @@
 import argparse
 import pickle
 
-import sys
-
-sys.path.append('E:\ML\generate_spike_protein')
-
-from models.vaes import MSAVAE, ARVAE
+from models.vaes import MSAVAE
 from utils.io import output_fasta
 
 
@@ -20,10 +16,11 @@ def main(weights_file, msa=True, num_samples=3000, output_file=None, model_kwarg
         with open(model_kwargs, 'rb') as p:
             model_kwargs = pickle.load(p)
 
-    if msa:
-        model = MSAVAE(**model_kwargs)
-    else:
-        model = ARVAE(**model_kwargs)
+    model = MSAVAE(**model_kwargs)
+    # if msa:
+    # model = MSAVAE(**model_kwargs)
+    # else:
+    #     model = ARVAE(**model_kwargs)
 
     model.load_weights(weights_file)
 

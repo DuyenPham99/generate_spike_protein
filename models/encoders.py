@@ -1,7 +1,3 @@
-import sys
-
-sys.path.append('E:\ML\generate_spike_protein')
-
 from tensorflow.keras.models import Model
 # from utils.layers import Conv1D, _activation
 from tensorflow.keras.layers import Input, Concatenate, Reshape, Dense, Add, \
@@ -11,7 +7,7 @@ from tensorflow.keras.layers import Input, Concatenate, Reshape, Dense, Add, \
 from keras.layers.pooling import GlobalAveragePooling1D
 
 
-def fc_encoder(seqlen, latent_dim, alphabet_size=21, encoder_hidden=[250, 250, 250],
+def fc_encoder(seqlen, latent_dim, alphabet_size=22, encoder_hidden=[250, 250, 250],
                encoder_dropout=[0.7, 0., 0.], activation='relu', n_conditions=0):
     x = Input(shape=(seqlen, alphabet_size,))
     h = Flatten()(x)
@@ -34,7 +30,6 @@ def fc_encoder(seqlen, latent_dim, alphabet_size=21, encoder_hidden=[250, 250, 2
     else:
         E = Model(x, [z_mean, z_var])
     return E
-
 
 # def cnn_encoder(original_dim, latent_dim,
 #                 nchar=21, num_filters=21, kernel_size=2,

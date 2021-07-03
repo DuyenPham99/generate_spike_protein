@@ -33,5 +33,10 @@ For the latter we recommend the use of a GPU, the former can run in a few hours 
 To generate sequences by sampling from the prior run scripts/generate_from_prior.py, passing the name of the weights file, and specifying the --unaligned flag if using an ARVAE model. Generated sequences will be written to a new fasta file in output/generated_sequences/
 
 ``` bash
-python scripts/generate_from_prior.py data/weights/msavae.h5
+python scripts/generate_from_prior.py output/weights/msavae.h5
+```
+or
+
+``` bash
+python scripts/variants.py output/weights/msavae.h5
 ```

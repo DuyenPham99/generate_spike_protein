@@ -12,10 +12,6 @@ from tensorflow.keras.layers import Input, Lambda
 
 from utils import aa_letters, luxa_seq
 
-import sys
-
-sys.path.append('E:\ML\generate_spike_protein')
-
 from utils.metrics import aa_acc
 from utils.data_loaders import right_pad, to_one_hot
 from utils.decoding import _decode_ar, _decode_nonar, batch_temp_sample
@@ -41,7 +37,7 @@ class BaseProtVAE:
     # Child classes must define a self.E, self.G
     def __init__(self, n_conditions=0, autoregressive=True,
                  lr=0.001, clipnorm=0., clipvalue=0., metrics=['accuracy', aa_acc],
-                 condition_encoder=True, latent_dim=50, original_dim=504):
+                 condition_encoder=True, latent_dim=50, original_dim=1653):
 
         self.n_conditions = n_conditions
         self.condition_encoder = condition_encoder
