@@ -17,10 +17,6 @@ def main(weights_file, msa=True, num_samples=3000, output_file=None, model_kwarg
             model_kwargs = pickle.load(p)
 
     model = MSAVAE(**model_kwargs)
-    # if msa:
-    # model = MSAVAE(**model_kwargs)
-    # else:
-    #     model = ARVAE(**model_kwargs)
 
     model.load_weights(weights_file)
 

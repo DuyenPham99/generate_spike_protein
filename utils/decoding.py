@@ -3,9 +3,10 @@ import numpy as np
 from utils import aa_letters
 
 
-def to_string(seqmat, remove_gaps=True):
+def to_string(seqmat):
     a = [''.join([aa_letters[np.argmax(aa)] for aa in seq]) for seq in seqmat]
-    return [x.replace('-', '') for x in a] if remove_gaps else a
+    return a
+
 
 def greedy_decode_1d(arr1d):
     a = np.zeros(arr1d.shape)
@@ -13,32 +14,29 @@ def greedy_decode_1d(arr1d):
     a[i] = 1
     return a
 
+
 def greedy_decode(pred_mat):
     return np.apply_along_axis(greedy_decode_1d, -1, pred_mat)
 
-def _decode_nonar(generator, z, remove_gaps=False, alphabet_size=21, conditions=None):
-    xp = generator.predict(z) if conditions is None else generator.predict([z, conditions])
+
+# b = np.array([[1,2,3], [4,5,6], [7,8,9]])
+# np.apply_along_axis(greedy_decode_1d, -1, b)
+# array([[[1, 0, 0],
+#         [0, 1, 0],
+#         [0, 0, 1]],
+#        [[1, 0, 0],
+#         [0, 1, 0],
+#         [0, 0, 1]],
+#        [[1, 0, 0],
+#         [0, 1, 0],
+#         [0, 0, 1]]])
+
+
+def _decode_nonar(generator, z):
+    xp = generator.predict(z)
     x = greedy_decode(xp)
-    return to_string(x, remove_gaps=remove_gaps)
+    return to_string(x)
 
-def _decode_ar(generator, z, remove_gaps=False, alphabet_size=21,
-               sample_func=None, conditions=None):
-    original_dim, alphabet_size = generator.output_shape[1], generator.output_shape[-1]
-    x = np.zeros((z.shape[0], original_dim, alphabet_size))
-    start = 0
-    for i in range(start, original_dim):
-        # iteration is over positions in sequence, which can't be parallelized
-        pred = generator.predict([z, x]) if conditions is None else generator.predict([z, conditions, x])
-        pos_pred = pred[:, i, :]
-        if sample_func is None:
-            pred_ind = pos_pred.argmax(-1) # convert probability to index
-        else:
-            pred_ind = sample_func(pos_pred)
-        for j, p in enumerate(pred_ind):
-            x[j, i, p] = 1
-
-    seqs = to_string(x, remove_gaps=remove_gaps)
-    return seqs
 
 def batch_temp_sample(preds, temperature=1.0):
     batch_sampled_aas = []
@@ -46,6 +44,7 @@ def batch_temp_sample(preds, temperature=1.0):
         batch_sampled_aas.append(temp_sample_outputs(s, temperature=temperature))
     out = np.array(batch_sampled_aas)
     return out
+
 
 def temp_sample_outputs(preds, temperature=1.0):
     # https://github.com/keras-team/keras/blob/master/examples/lstm_text_generation.py

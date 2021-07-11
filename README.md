@@ -38,5 +38,5 @@ python scripts/generate_from_prior.py output/weights/msavae.h5
 or
 
 ``` bash
-python scripts/variants.py output/weights/msavae.h5
+python scripts/generate_variants.py output/weights/msavae.h5
 ```
